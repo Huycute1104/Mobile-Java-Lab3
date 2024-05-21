@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 txtName.setText(fruit.getName());
                 txtDescription.setText(fruit.getDescription());
                 imageView.setImageResource(fruit.getImage());
+                currentImageIndex = findImageIndex(fruit.getImage(), imageResources);
             }
         });
 
@@ -130,11 +131,11 @@ public class MainActivity extends AppCompatActivity {
         Fruits fruit = arrFruits.get(selectedPosition);
         fruit.setName(name);
         fruit.setDescription(description);
-        fruit.setImage(imageResources[currentImageIndex]); // Update the image
+        fruit.setImage(imageResources[currentImageIndex]);
         adapter.notifyDataSetChanged();
         txtName.setText("");
         txtDescription.setText("");
-        imageView.setImageResource(R.drawable.tran); // Reset to transparent
+        imageView.setImageResource(R.drawable.tran);
         selectedPosition = -1;
     }
 
@@ -173,5 +174,14 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < imageResourceList.size(); i++) {
             imageResources[i] = imageResourceList.get(i);
         }
+    }
+
+    private int findImageIndex(int resourceId, int[] resources) {
+        for (int i = 0; i < resources.length; i++) {
+            if (resources[i] == resourceId) {
+                return i;
+            }
+        }
+        return -1; // Return -1 if the resource ID is not found
     }
 }
