@@ -57,7 +57,7 @@ public class UserAdapter extends BaseAdapter {
 
             holder = new ViewHolder();
             holder.txtName = convertView.findViewById(R.id.txtName);
-            holder.txtDescription = convertView.findViewById(R.id.txtDes);
+            holder.txtDescription = convertView.findViewById(R.id.txtDescription);
             holder.avatar = convertView.findViewById(R.id.imageAvatar);
             holder.flag = convertView.findViewById(R.id.imageFlag);
 

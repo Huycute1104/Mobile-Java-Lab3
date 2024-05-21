@@ -29,7 +29,7 @@
         android:text="Name" />
 
     <TextView
-        android:id="@+id/txtDes"
+        android:id="@+id/txtDescription"
         android:layout_toLeftOf="@+id/imageFlag"
         android:layout_toRightOf="@+id/imageAvatar"
         android:layout_marginLeft="20dp"
@@ -39,6 +39,6 @@
         android:maxLength="50"
         android:singleLine="false"
         style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        android:text="Subtitle"/>
+        android:text="Description"/>
 
 </RelativeLayout>
