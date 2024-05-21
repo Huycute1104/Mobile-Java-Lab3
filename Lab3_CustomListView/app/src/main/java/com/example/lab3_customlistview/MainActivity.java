@@ -12,7 +12,9 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     Button btnAdd, btnUpdate, btnDelete;
     int selectedPosition = -1;
-    int[] imageResources = {R.drawable.apple, R.drawable.avocado, R.drawable.orange, R.drawable.saurieng, R.drawable.watermelon, R.drawable.strawberry, R.drawable.pomegranates, R.drawable.grape, R.drawable.blueberry};
+    int[] imageResources;
     int currentImageIndex = 0;
 
     @Override
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // Initialize image resources dynamically
+        initializeImageResources();
 
         View();
         adapter = new FruitAdapter(this, R.layout.fruit, arrFruits);
@@ -149,5 +154,24 @@ public class MainActivity extends AppCompatActivity {
     private void cycleImage() {
         currentImageIndex = (currentImageIndex + 1) % imageResources.length;
         imageView.setImageResource(imageResources[currentImageIndex]);
+    }
+
+    private void initializeImageResources() {
+        List<Integer> imageResourceList = new ArrayList<>();
+        Field[] drawables = R.drawable.class.getFields();
+
+        for (Field field : drawables) {
+            try {
+                int resourceId = field.getInt(null);
+                imageResourceList.add(resourceId);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        imageResources = new int[imageResourceList.size()];
+        for (int i = 0; i < imageResourceList.size(); i++) {
+            imageResources[i] = imageResourceList.get(i);
+        }
     }
 }
