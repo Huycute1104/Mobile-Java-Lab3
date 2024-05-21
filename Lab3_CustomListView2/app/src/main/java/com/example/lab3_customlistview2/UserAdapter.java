@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,39 +13,67 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class UserAdapter extends ArrayAdapter<Users> {
+public class UserAdapter extends BaseAdapter {
 
-    private Context mContext;
-    private int mResource;
-    public UserAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Users> objects) {
-        super(context, resource, objects);
-        this.mContext = context;
-        this.mResource = resource;
+    private Context context;
+    private int layout;
+    private List<Users> users;
+
+    public UserAdapter(Context context, int layout, List<Users> users) {
+        this.context = context;
+        this.layout = layout;
+        this.users = users;
     }
 
-    @NonNull
+    private static class ViewHolder {
+        ImageView avatar,flag;
+        TextView txtName, txtDescription;
+    }
+
+
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+    public int getCount() {
+        return users.size();
+    }
 
-        convertView = layoutInflater.inflate(mResource, parent, false);
+    @Override
+    public Object getItem(int position) {
+        return users.get(position);
+    }
 
-        ImageView imageAvatar = convertView.findViewById(R.id.imageAvatar);
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-        ImageView imageFlag = convertView.findViewById(R.id.imageFlag);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(layout, null);
 
-        TextView txtName = convertView.findViewById(R.id.txtName);
+            holder = new ViewHolder();
+            holder.txtName = convertView.findViewById(R.id.txtName);
+            holder.txtDescription = convertView.findViewById(R.id.txtDes);
+            holder.avatar = convertView.findViewById(R.id.imageAvatar);
+            holder.flag = convertView.findViewById(R.id.imageFlag);
 
-        TextView txtDes = convertView.findViewById(R.id.txtDes);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-        imageAvatar.setImageResource(getItem(position).getAvatar());
-        imageFlag.setImageResource(getItem(position).getFlag());
-
-        txtName.setText((getItem(position).getName()));
-
-        txtDes.setText((getItem(position).getDescription()));
+        Users user = users.get(position);
+        holder.txtName.setText(user.getName());
+        holder.txtDescription.setText(user.getDescription());
+        holder.avatar.setImageResource(user.getAvatar());
+        holder.flag.setImageResource(user.getFlag());
 
         return convertView;
     }
+
+
 }
