@@ -110,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter both name and description", Toast.LENGTH_SHORT).show();
             return;
         }
-        arrFruits.add(new Fruits(name, description, imageResources[currentImageIndex]));  // Use the current selected image
+        arrFruits.add(new Fruits(name, description, imageResources[currentImageIndex]));
         adapter.notifyDataSetChanged();
         txtName.setText("");
         txtDescription.setText("");
-        imageView.setImageResource(R.drawable.tran); // Reset to transparent
+        imageView.setImageResource(R.drawable.tran);
     }
 
     private void updateFruit() {
@@ -182,6 +182,6 @@ public class MainActivity extends AppCompatActivity {
                 return i;
             }
         }
-        return -1; // Return -1 if the resource ID is not found
+        return -1;
     }
 }
